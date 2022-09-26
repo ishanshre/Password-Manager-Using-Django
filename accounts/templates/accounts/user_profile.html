@@ -15,6 +15,7 @@
                   <h5>Address: &emsp13;{{ profile.address }}</h5>
                   <h5>Bio:</h5>
                   <p>{{ profile.body }}</p>
+                  <a href="{% url 'accounts:password_change' %}" type="button" role="button" class="btn btn-outline-secondary">Change Password</a>
                 </div>
               </div>
         </div>
