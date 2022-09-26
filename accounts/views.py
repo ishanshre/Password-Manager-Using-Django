@@ -10,7 +10,7 @@ from django.views.generic import (
 )
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import UserProfile
 # Create your views here.
@@ -51,3 +51,26 @@ class UserPasswordChangeView(LoginRequiredMixin, SuccessMessageMixin, PasswordCh
     template_name = 'accounts/password_change.html'
     success_url = reverse_lazy('accounts:user_profile')
     success_message = 'Password Changed Successfully'
+
+
+class UserPasswordResetView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'accounts/password_reset.html'
+    email_template_name = 'accounts/password_reset_email.html'
+    success_message = 'Instruction and link has been sent to your email'
+    success_url = reverse_lazy('accounts:login')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('manager:index')
+        return super(UserPasswordResetView, self).dispatch(request, *args, **kwargs)
+
+
+class UserPasswordRestConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
+    template_name = 'accounts/password_reset_confirm.html'
+    success_message = 'Password Reset Successfull'
+    success_url = reverse_lazy('accounts:login')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('manager:index')
+        return super(UserPasswordRestConfirmView, self).dispatch(request, *args, **kwargs)
