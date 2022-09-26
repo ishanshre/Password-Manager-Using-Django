@@ -17,8 +17,8 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ['first_name','last_name','age','nickname','username','email']
 
 class UserLoginForm(AuthenticationForm):
-    username = forms.CharField(max_length=20)
-    password = forms.CharField(max_length=20, widget=forms.PasswordInput)
+    username = forms.CharField(max_length=20, label='',widget=forms.TextInput(attrs={'placeholder':'username'}))
+    password = forms.CharField(max_length=20, label='',widget=forms.PasswordInput(attrs={'placeholder':'password'}))
     remember_me = forms.BooleanField(required=False)
 
     class Meta:

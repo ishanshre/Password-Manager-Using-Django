@@ -25,7 +25,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-dark">
             {% if user.is_authenticated %}
-            <li><a class="dropdown-item" href="#">{{ user.username|title }}'s profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'accounts:user_profile' %}">{{ user.username|title }}'s profile</a></li>
             <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
             {% else %}
             <li><a class="dropdown-item" href="{% url 'accounts:login' %}">Login</a></li>

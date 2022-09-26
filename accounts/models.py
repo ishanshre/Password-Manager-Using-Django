@@ -17,4 +17,4 @@ class UserProfile(models.Model):
     address = models.CharField(max_length=30)
 
     def __str__(self):
-        return f"{self.user.first_name} {self.last_name}"
+        return f"{self.user.username}"

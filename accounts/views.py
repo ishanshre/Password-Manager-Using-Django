@@ -3,10 +3,16 @@ from .forms import CustomUserCreationForm, UserLoginForm
 from django.contrib.auth import get_user_model
 from django.views.generic.edit import (
     CreateView,
+
+)
+from django.views.generic import (
+    DetailView,
 )
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import UserProfile
 # Create your views here.
 
 
@@ -31,3 +37,11 @@ class UserLoginView(SuccessMessageMixin, LoginView):
             return redirect('manager:index')
         return super(UserLoginView, self).dispatch(request,*args, **kwargs)
     
+
+class UserProfileView(LoginRequiredMixin, DetailView):
+    model = UserProfile
+    template_name = 'accounts/user_profile.html'
+    context_object_name = 'profile'
+
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)

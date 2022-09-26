@@ -1,0 +1,22 @@
+{% extends 'manager/base.html' %}
+{% block title %}Home{% endblock title %}
+{% block body %}
+    <div class="container mt-5">
+        <div class="container ">
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-4">
+                  <img src="{{ profile.avatar.url }}" alt="">
+                </div>
+                <div class="col col-lg-8">
+                  <h5>Name:&emsp13;{{ profile.user.first_name|title }} {{ profile.user.last_name|title }}</h5>
+                  <h5>Nick Name:&emsp13;{{ profile.user.nickname }}</h5>
+                  <h5>Username: &emsp13;{{ profile.user.username }}</h5>
+                  <h5>Email Address: &emsp13;{{ profile.user.email }}</h5>
+                  <h5>Address: &emsp13;{{ profile.address }}</h5>
+                  <h5>Bio:</h5>
+                  <p>{{ profile.body }}</p>
+                </div>
+              </div>
+        </div>
+    </div>
+{% endblock body %}
