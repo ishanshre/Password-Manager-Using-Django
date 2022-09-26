@@ -1,0 +1,53 @@
+{% extends 'manager/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Profile Update{% endblock title %}
+{% block body %}
+<section class="vh-80 gradient-custom">
+    <div class="container py-5 h-80">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+                    <h2 class="fw-bold mb-2 text-uppercase">Update Profile</h2>  
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-6">
+                                {{ user_form.first_name|as_crispy_field }}
+                            </div>
+                            <div class="col-6">
+                                {{ user_form.last_name|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ user_form.age|as_crispy_field }}
+                            </div>
+                            <div class="col-6">
+                                {{ user_form.nickname|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ user_form.username|as_crispy_field }}
+                            </div>
+                            <div class="col-6">
+                                {{ user_form.email|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ profile_form.avatar|as_crispy_field }}
+                            </div>
+                            <div class="col-6">
+                                {{ profile_form.address|as_crispy_field }}
+                            </div>
+                        </div>
+                        {{ profile_form.body | as_crispy_field }}
+                        <input type="submit" value="Update" class="btn btn-outline-light btn-lg px-5">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+{% endblock body %}

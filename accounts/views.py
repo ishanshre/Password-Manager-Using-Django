@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, UserLoginForm
+from .forms import CustomUserCreationForm, UserLoginForm, CustomUserChangeForm, UserProfileForm
 from django.contrib.auth import get_user_model
 from django.views.generic.edit import (
     CreateView,
@@ -8,7 +8,9 @@ from django.views.generic.edit import (
 from django.views.generic import (
     DetailView,
 )
+from django.views import View
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -74,3 +76,27 @@ class UserPasswordRestConfirmView(SuccessMessageMixin, PasswordResetConfirmView)
         if request.user.is_authenticated:
             return redirect('manager:index')
         return super(UserPasswordRestConfirmView, self).dispatch(request, *args, **kwargs)
+
+
+class UserProfileUpdate(LoginRequiredMixin, View):
+    template_name = 'accounts/user_profile_update.html'
+
+    def get(self, request, *args, **kwargs):
+        user_form = CustomUserChangeForm(instance = request.user)
+        profile_form = UserProfileForm(instance = request.user.profile)
+        context = {'user_form':user_form, 'profile_form':profile_form}
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        user_form = CustomUserChangeForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Profile Updated Successfully')
+            return redirect('accounts:user_profile')
+        else:
+            user_form = CustomUserChangeForm(instance=request.user)
+            profile_form = UserProfileForm(instance=request.user.profile)
+        return render(request, self.template_name, context={'user_form':user_form, 'profile_form':profile_form})
+        
